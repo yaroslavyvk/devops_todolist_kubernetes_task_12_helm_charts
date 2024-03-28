@@ -35,13 +35,32 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. Use `kind` to spin up a cluster from a `cluster.yml` configuration file.
 1. Inspect Nodes for Labels and Taints
 1. Taint nodes labeled with `app=mysql` with `app=mysql:NoSchedule`
-1. StateFulSet requirements:
-    1. Modify StatefulSet so it can be scheduled on the tainted worder nodes
-    1. Add Pod Anti-Affinity rule so mysql could not be scheduled on the same node
-    1. Add Node Affinity rule so mysql scheduled on a node with `app=mysql` label
-1. Deployment requirements:
-    1. Add Node Affinity Rules to schedule deployment on a `app=kube2py` labeled nodes (Use `PreferedDuringSchedulingIgnoredDuringExecution`)
-    1. Add Pod Anti-Affinity rule so deployment could not be scheduled on the same node
-1. `bootstrap.sh` should containe all the commands to deploy all the required resources in the cluster
+1. Create a helm chart named `todoapp` inside a `helm-chart` directory
+1. `todoapp` helm chart requirements:
+    1. Namespace name should be controlled from a `values.yaml` file
+    1. Use `.Chart.Name` as a prefix for all resources names
+    1. Secrets should be controlled from a `values.yaml` file
+    1. Secrets `data` should be popualted by a `range` function
+    1. Inside the deployment use `range` to map secrets as environment variables
+    1. Resources requests and limits should controlled from a `values.yaml` file
+    1. RollingUpdate parameters should be controlled from a `values.yaml` file
+    1. Image repository and tag should be controlled from a `values.yaml` file
+    1. Deployment node affinity parameters should be controlled from a `values.yaml` file (key and values)
+    1. `hpa` min and max replicas should be controlled from a `values.yaml` file
+    1. `hpa` average CPU and Memory utilization should be controlled from a `values.yaml` file
+    1. `pv` capacity should be controlled from a `values.yaml` file
+    1. `pvc` requests storage should be controlled from a `values.yaml` file
+1. Creata a sub-chart called `mysql` inside a `charts` directory of the `todoapp` helm chart
+1. `mysql` helm chart requirements:
+    1. Namespace name should be controlled from a `values.yaml` file
+    1. Use `.Chart.Name` as a prefix for all resources names
+    1. Secrets should be controlled from a `values.yaml` file
+    1. Secrets `data` should be popualted by a `range` function
+    1. StateFulSet's Replicas should be controlled from a `values.yaml` file
+    1. Image repository and tag should be controlled from a `values.yaml` file
+    1. `pvc` requests storage should be controlled from a `values.yaml` file
+    1. Affinity and Toleration parameters should be controlled from a `values.yaml` file
+    1. Resource requests and limits should controlled from a `values.yaml` file
+1. `bootstrap.sh`containe all commands to deploy prerequsites and the `todoapp` helm chart
 1. `README.md` should have instructuions on how to validate the changes
 1. Create PR with your changes and attach it for validation on a platform.

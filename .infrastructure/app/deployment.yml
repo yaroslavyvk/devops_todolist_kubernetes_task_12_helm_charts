@@ -91,3 +91,13 @@ spec:
       - name: app-config-volume
         configMap:
           name: app-config
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - kube2py
