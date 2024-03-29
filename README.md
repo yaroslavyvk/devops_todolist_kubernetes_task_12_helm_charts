@@ -50,6 +50,7 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
     1. `hpa` average CPU and Memory utilization should be controlled from a `values.yaml` file
     1. `pv` capacity should be controlled from a `values.yaml` file
     1. `pvc` requests storage should be controlled from a `values.yaml` file
+    1. Service Account Name inside both `Deployment` and all rbac objects should be controld from a `values.yaml` file
 1. Creata a sub-chart called `mysql` inside a `charts` directory of the `todoapp` helm chart
 1. `mysql` helm chart requirements:
     1. Namespace name should be controlled from a `values.yaml` file
