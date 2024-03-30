@@ -9,11 +9,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   namespace: mateapp
-  name: secret-reader
+  name: secrets-reader
 rules:
 - apiGroups: [""]
-  resources: ["secret"]
-  verbs: ["get", "list", "watch"]
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
