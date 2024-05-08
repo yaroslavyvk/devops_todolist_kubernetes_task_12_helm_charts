@@ -19,7 +19,7 @@ jobs:
 
     - name: Helm Lint
       run: |
-        helm lint helm-charts/todoapp
+        helm lint .infrastructure/helm-chart/todoapp
 
     - name: Helm Template
       run: |
