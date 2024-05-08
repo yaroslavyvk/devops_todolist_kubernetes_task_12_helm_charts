@@ -23,4 +23,4 @@ jobs:
 
     - name: Helm Template
       run: |
-        helm template helm-charts/todoapp -f helm-charts/todoapp/values.yaml
+        helm template .infrastructure/helm-chart/todoapp -f .infrastructure/helm-chart/todoapp/values.yaml
