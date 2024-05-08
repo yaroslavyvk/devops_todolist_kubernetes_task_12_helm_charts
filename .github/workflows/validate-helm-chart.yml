@@ -2,16 +2,18 @@ name: validate-helm
 
 run-name: ${{ github.actor }} - ${{ github.ref_name }}
 
-on: 
+on:
   pull_request:
     branches: ["main"]
-    
+
+  workflow_dispatch:
+
 jobs:
   validate-helm:
     runs-on: ubuntu-latest
 
     steps:
-  
+
     - uses: actions/checkout@v4
 
     - name: Helm tool installer
@@ -20,7 +22,7 @@ jobs:
     - name: Helm Lint
       run: |
         helm lint helm-charts/mateapp
-    
+
     - name: Helm Template
       run: |
         helm template helm-charts/mateapp -f helm-charts/mateapp/values.yaml
