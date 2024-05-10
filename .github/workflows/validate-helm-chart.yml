@@ -33,6 +33,7 @@ jobs:
         fi
 
     - name: Todoapp Chart Present
+      if: always()
       run: |
         if [ ! -d .infrastructure/helm-chart/todoapp ]; then
           echo "Todoapp Chart is not present or named incorrectly"
@@ -40,10 +41,12 @@ jobs:
         fi
 
     - name: Helm Lint
+      if: always()
       run: |
         helm lint .infrastructure/helm-chart/todoapp
 
     - name: Helm Template
+      if: always()
       run: |
         helm template .infrastructure/helm-chart/todoapp -f .infrastructure/helm-chart/todoapp/values.yaml
 
