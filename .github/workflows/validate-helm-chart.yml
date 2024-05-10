@@ -20,9 +20,12 @@ jobs:
     - name: output.log is present
       run: |
         if [ ! -f output.log ]; then
-          echo "output.log is not present"
-          echo "Deploy helm chart to your `kind` cluster
-          Run command `kubectl get all,cm,secret,ing -A` put the output in a file called `output.log` in a root of the repository"
+          cat << EOF
+          output.log is not present
+          Deploy helm chart to your `kind` cluster
+          Run command `kubectl get all,cm,secret,ing -A` put the output in a file called `output.log` in a root of the repository
+
+          EOF
           exit 1
         fi
 
