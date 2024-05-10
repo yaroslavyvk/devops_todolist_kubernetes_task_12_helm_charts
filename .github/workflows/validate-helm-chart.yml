@@ -48,7 +48,7 @@ jobs:
     - name: MYSQL Chart Present
       if: always()
       run: |
-        if [ ! -d .infrastructure/helm-chart/charts/mysql ]; then
+        if [ ! -d .infrastructure/helm-chart/todoapp/charts/mysql ]; then
           echo "MYSQL Chart is not present or named incorrectly"
           exit 1
         fi
