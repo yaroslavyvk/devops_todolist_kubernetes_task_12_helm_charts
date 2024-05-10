@@ -29,6 +29,11 @@ jobs:
       run: |
         if ! grep -q "name: mysql" .infrastructure/helm-chart/todoapp/Chart.yaml; then
           echo "MYSQL dependency is not present"
+          echo "Inside the Chart.yaml file of todoapp chart, add lines
+          ```
+          dependencies:
+          - name: mysql
+          ```"
           exit 1
         fi
 
