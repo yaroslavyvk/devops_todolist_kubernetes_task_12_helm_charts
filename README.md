@@ -70,6 +70,7 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
         ```
 
 10. `bootstrap.sh` should containe all commands to deploy prerequsites and the `todoapp` helm chart
-11. Deploy chart locally and run command `kubectl get all,cm,secret,ing -A` put the output in a file called `output.log` in a root of the repository
+11. Deploy helm chart to your `kind` cluster
+11. Run command `kubectl get all,cm,secret,ing -A` and put the output in a file called `output.log` in a root of the repository
 12. `README.md` should have instructuions on how to validate the changes
 13. Create PR with your changes and attach it for validation on a platform.
