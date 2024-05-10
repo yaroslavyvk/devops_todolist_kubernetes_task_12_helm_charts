@@ -22,7 +22,7 @@ jobs:
         if [ ! -f output.log ]; then
           echo 'output.log is not present'
           echo 'Deploy helm chart to your `kind` cluster'
-          echo 'Run command `kubectl get all,cm,secret,ing -A` put the output in a file called `output.log` in a root of the repository'
+          echo 'Run command `kubectl get all,cm,secret,ing -A` and put the output in a file called `output.log` in a root of the repository'
           exit 1
         fi
 
@@ -45,6 +45,14 @@ jobs:
           exit 1
         fi
 
+    - name: MYSQL Chart Present
+      if: always()
+      run: |
+        if [ ! -d .infrastructure/helm-chart/mysql ]; then
+          echo "MYSQL Chart is not present or named incorrectly"
+          exit 1
+        fi
+
     - name: Helm Lint
       if: always()
       run: |
@@ -54,12 +62,3 @@ jobs:
       if: always()
       run: |
         helm template .infrastructure/helm-chart/todoapp -f .infrastructure/helm-chart/todoapp/values.yaml
-
-    - name: MYSQL Chart Present
-      if: always()
-      run: |
-        if [ ! -d .infrastructure/helm-chart/mysql ]; then
-          echo "MYSQL Chart is not present or named incorrectly"
-          exit 1
-        fi
-
