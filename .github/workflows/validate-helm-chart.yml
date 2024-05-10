@@ -17,6 +17,21 @@ jobs:
     - name: Helm tool installer
       uses: Azure/setup-helm@v4.2.0
 
+## Check if output.log is present in root
+    - name: output.log is present
+      run: |
+        if [ ! -f output.log ]; then
+          echo "output.log is not present"
+          exit 1
+        fi
+
+    - name: Todoapp Chart Present
+      run: |
+        if [ ! -d .infrastructure/helm-chart/todoapp ]; then
+          echo "Todoapp Chart is not present"
+          exit 1
+        fi
+
     - name: Helm Lint
       run: |
         helm lint .infrastructure/helm-chart/todoapp
@@ -24,3 +39,22 @@ jobs:
     - name: Helm Template
       run: |
         helm template .infrastructure/helm-chart/todoapp -f .infrastructure/helm-chart/todoapp/values.yaml
+        helm template .infrastructure/helm-chart/todoapp -f .infrastructure/helm-chart/todoapp/values.yaml >> templates.yaml
+
+
+## Subchart Basic Validations
+    - name: MYSQL Chart Present
+      if: always()
+      run: |
+        if [ ! -d .infrastructure/helm-chart/mysql ]; then
+          echo "MYSQL Chart is not present"
+          exit 1
+        fi
+
+    - name: MYSQL Dependency Present
+      if: always()
+      run: |
+        if ! grep -q "name: mysql" .infrastructure/helm-chart/todoapp/Chart.yaml; then
+          echo "MYSQL dependency is not present"
+          exit 1
+        fi
