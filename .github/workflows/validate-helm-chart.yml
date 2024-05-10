@@ -20,12 +20,11 @@ jobs:
     - name: output.log is present
       run: |
         if [ ! -f output.log ]; then
-          cat << "EOF"
+          cat << EOF
           output.log is not present
           Deploy helm chart to your `kind` cluster
           Run command `kubectl get all,cm,secret,ing -A` put the output in a file called `output.log` in a root of the repository
-
-          "EOF"
+          EOF
           exit 1
         fi
 
@@ -33,15 +32,12 @@ jobs:
       if: always()
       run: |
         if ! grep -q "name: mysql" .infrastructure/helm-chart/todoapp/Chart.yaml; then
-          cat << "EOF"
-            MYSQL dependency is not present
-
+          cat << EOF
+          MYSQL dependency is not present
           Inside the Chart.yaml file of todoapp chart, add lines
-
           dependencies:
           - name: mysql
-
-          "EOF"
+          EOF
           exit 1
         fi
 
