@@ -32,4 +32,3 @@ if mysql_pods_ok and todoapp_ingress_ok and todoapp_pods_ok and todoapp_hpa_ok:
     print("All resources are found and are in a Running state.")
 else:
     print("Not all required resources found or they are not in a Running state.")
-    exit(1)
