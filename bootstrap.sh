@@ -27,6 +27,6 @@ kubectl wait --namespace ingress-nginx \
 
 # Step 3: Install the todoapp Helm chart
 echo "Installing the todoapp Helm chart..."
-helm install todoapp-release .infrastructure/helm-chart
+helm install todoapp-release .infrastructure/helm-chart/todoapp
 
 echo "Bootstrap process completed successfully!"
