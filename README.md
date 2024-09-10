@@ -74,3 +74,26 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 11. Run command `kubectl get all,cm,secret,ing -A` and put the output in a file called `output.log` in a root of the repository
 12. `README.md` should have instructuions on how to validate the changes
 13. Create PR with your changes and attach it for validation on a platform.
+
+
+## Solution
+
+## Installation Instructions
+
+To deploy the Kubernetes cluster and the todoapp application, you simply need to run the `bootstrap.sh` script. This script automates the entire setup process, including the creation of the Kubernetes cluster, application of node taints, installation of the NGINX Ingress Controller, and deployment of the todoapp Helm chart along with a MySQL subchart.
+
+
+### Steps to Run the Script
+
+Make the Script Executable.
+Before running the script, make sure it is executable by changing its permissions:
+
+`chmod +x bootstrap.sh`
+
+Execute the Script:
+
+`./bootstrap.sh`
+
+To verify that everything was installed correctly, you can check the status of the nodes, pods, and services by running:
+
+`kubectl get nodes, pods, svc, ingress`
