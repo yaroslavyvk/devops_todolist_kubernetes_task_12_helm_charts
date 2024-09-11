@@ -20,7 +20,8 @@ spec:
       serviceAccountName: secrets-reader
       containers:
       - name: {{ .Chart.Name }}
-        image: {{ .Values.todoapp.image.repository }}:{{ .Values.todoapp.image.version }}
+        {{- with .Values.todoapp }}
+        image: {{ .image.repository }}:{{ .image.version }}
         volumeMounts:
         - name: data
           mountPath: /app/data
@@ -32,18 +33,18 @@ spec:
           readOnly: true
         resources:
           requests:
-            memory: {{ .Values.todoapp.resources.requests.memory | quote }}
-            cpu: {{ .Values.todoapp.resources.requests.cpu | quote }}
+            memory: {{ .resources.requests.memory | quote }}
+            cpu: {{ .resources.requests.cpu | quote }}
           limits:
-            memory: {{ .Values.todoapp.resources.limits.memory | quote }}
-            cpu: {{ .Values.todoapp.resources.limits.cpu | quote }}
+            memory: {{ .resources.limits.memory | quote }}
+            cpu: {{ .resources.limits.cpu | quote }}
         env:
         - name: PYTHONUNBUFFERED
           valueFrom:
             configMapKeyRef:
               name: app-config
               key: PYTHONUNBUFFERED
-        {{- range $key, $value := .Values.todoapp.secrets }}
+        {{- range $key, $value := .secrets }}
         - name: {{ $key }}
           valueFrom:
             secretKeyRef:
@@ -77,12 +78,13 @@ spec:
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: {{ .Values.todoapp.affinity.weight }}
+          - weight: {{ .affinity.weight }}
             preference:
               matchExpressions:
-              - key: {{ .Values.todoapp.affinity.key }}
-                operator: {{ .Values.todoapp.affinity.operator }}
+              - key: {{ .affinity.key }}
+                operator: {{ .affinity.operator }}
                 values:
-                {{- range .Values.todoapp.affinity.values }}
+                {{- range .affinity.values }}
                  - {{ . | quote }}
                 {{- end }}
+        {{- end }}

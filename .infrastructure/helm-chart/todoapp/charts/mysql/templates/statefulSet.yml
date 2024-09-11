@@ -16,11 +16,12 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.version}}
+      {{- with .Values.mysql }}
+        image: {{ .image.repository }}:{{ .image.version}}
         env:
         - name: MYSQL_DATABASE
           value: app_db
-        {{- range $key, $value := .Values.mysql.secrets }}
+        {{- range $key, $value := .secrets }}
         - name: {{ $key }}
           valueFrom:
             secretKeyRef:
@@ -38,8 +39,8 @@ spec:
           mountPath: /docker-entrypoint-initdb.d
         resources:
           requests:
-            cpu: {{ .Values.mysql.resource.requests.cpu }}
-            memory: {{ .Values.mysql.resource.requests.memory }}
+            cpu: {{ .resource.requests.cpu }}
+            memory: {{ .resource.requests.memory }}
         livenessProbe:
           exec:
             command: ["mysqladmin", "ping"]
@@ -57,19 +58,19 @@ spec:
         configMap:
           name: mysql
       tolerations:
-      - key: {{ .Values.mysql.tolerations.key | quote }}
-        operator: {{ .Values.mysql.tolerations.operator | quote }}
-        value: {{ .Values.mysql.tolerations.value | quote }}
-        effect: {{ .Values.mysql.tolerations.effect | quote }}
+      - key: {{ .tolerations.key | quote }}
+        operator: {{ .tolerations.operator | quote }}
+        value: {{ .tolerations.value | quote }}
+        effect: {{ .tolerations.effect | quote }}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                  - key: {{ .Values.mysql.affinity.podAntiAffinity.key }}
-                    operator: {{ .Values.mysql.affinity.podAntiAffinity.operator }}
+                  - key: {{ .affinity.podAntiAffinity.key }}
+                    operator: {{ .affinity.podAntiAffinity.operator }}
                     values:
-                    {{- range .Values.mysql.affinity.podAntiAffinity.values }}
+                    {{- range .affinity.podAntiAffinity.values }}
                      - {{ . | quote }}
                     {{- end }}
               topologyKey: "kubernetes.io/hostname"
@@ -77,10 +78,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: {{ .Values.mysql.affinity.nodeAntiAffinity.key }}
-                    operator: {{ .Values.mysql.affinity.nodeAntiAffinity.operator }}
+                  - key: {{ .affinity.nodeAntiAffinity.key }}
+                    operator: {{ .affinity.nodeAntiAffinity.operator }}
                     values:
-                    {{- range .Values.mysql.affinity.nodeAntiAffinity.values }}
+                    {{- range .affinity.nodeAntiAffinity.values }}
                      - {{ . | quote }}
                     {{- end }}
   volumeClaimTemplates:
@@ -90,4 +91,5 @@ spec:
       accessModes: ["ReadWriteOnce"]
       resources:
         requests:
-          storage: {{ .Values.mysql.pvc.requests.storage }}
+          storage: {{ .pvc.requests.storage }}
+      {{- end }}
