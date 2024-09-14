@@ -183,8 +183,6 @@ The `mysql` subchart includes:
   ```yaml
   dependencies:
     - name: mysql
-      version: 1.0.0
-      repository: file://charts/mysql
   ```
 
 ---
